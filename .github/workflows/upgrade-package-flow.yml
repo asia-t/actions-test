@@ -46,7 +46,7 @@ jobs:
           git push origin update-lodash-to-"$PACKAGE_VERSION"
 
        - name: Create Pull Request
-          run: gh pr create --base main --head update-lodash-to-"$PACKAGE_VERSION" --title 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"' --body 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'  --repo ${{ env.TARGET_REPOSITORY }}
+         run: gh pr create --base main --head update-lodash-to-"$PACKAGE_VERSION" --title 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"' --body 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'  --repo ${{ env.TARGET_REPOSITORY }}
 
   # create-pull-request:
   #   needs: install-package
