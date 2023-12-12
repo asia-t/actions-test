@@ -29,8 +29,8 @@ jobs:
         id: display-version
         run: echo "PACKAGE_VERSION=$(npm show ${{ env.NEW_PACKAGE_NAME }} version)" >> "$GITHUB_ENV"
 
-      - name: Create New Branch
-        run: git checkout -b update-lodash-to-"$PACKAGE_VERSION"
+      # - name: Create New Branch
+      #   run: git checkout -b update-lodash-to-"$PACKAGE_VERSION"
 
       - name: Update Package
         run: npm install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"
