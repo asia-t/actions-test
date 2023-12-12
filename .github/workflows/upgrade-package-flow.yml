@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Target Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.TARGET_REPOSITORY }}
 
@@ -41,22 +41,28 @@ jobs:
           git config --global user.name "asia-t"
           git status
 
-#            git add package.json package-lock.json
-#            git commit -m "Update ${{ env.NEW_PACKAGE_NAME }}@ to version ${{ env.PACKAGE_VERSION }}"
-#            git push origin main
+          git add package.json package-lock.json
+          git commit -m 'Update ${{ env.NEW_PACKAGE_NAME }}@ to version "$PACKAGE_VERSION"'
+          git push origin update-lodash-to-"$PACKAGE_VERSION"
 
-#  create-pull-request:
-#    needs: install-package
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v4
-#        with:
-#          node-version: 18
-#
-#      - name: Create Pull Request
-#        run: |
-#          git checkout -b install-package-branch
-#          git push origin install-package-branch
-#          gh pr create --base main --head install-package-branch --title "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}" --body "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"  --repo ${{ env.TARGET_REPOSITORY }}
+       - name: Create Pull Request
+          run: gh pr create --base main --head update-lodash-to-"$PACKAGE_VERSION" --title 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"' --body 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'  --repo ${{ env.TARGET_REPOSITORY }}
+
+  # create-pull-request:
+  #   needs: install-package
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout target repo
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repository: ${{ env.TARGET_REPOSITORY }}
+      
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 18
+
+      # - name: Create pull request
+      #   uses: peter-evans/create-pull-request@v5
+     
