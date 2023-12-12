@@ -27,18 +27,18 @@ jobs:
 
       - name: Display Package Version
         id: display-version
-        run: echo "::set-env name=PACKAGE_VERSION::$(npm show ${{ env.NEW_PACKAGE_NAME }} version)"
+        run: echo "PACKAGE_VERSION=$(npm show ${{ env.NEW_PACKAGE_NAME }} version) >> "$GITHUB_ENV"
 
       - name: Create New Branch
-        run: git checkout -b update-feed-to-${{env.PACKAGE_VERSION}}
+        run: git checkout -b update-lodash-to-"$PACKAGE_VERSION"
 
       - name: Update Package
-        run: npm install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}
+        run: npm install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.email "joanna.derks@schibsted.pl"
-          git config --global user.name "joanna-derks"
+          git config --global user.email "joanna.derks@gmail.com"
+          git config --global user.name "asia-t"
           git status
 
 #            git add package.json package-lock.json
