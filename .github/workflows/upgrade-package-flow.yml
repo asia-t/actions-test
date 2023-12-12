@@ -17,30 +17,30 @@ jobs:
 
     steps:
       - name: Checkout Target Repository
-          uses: actions/checkout@v2
-          with:
-            repository: ${{ env.TARGET_REPOSITORY }}
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.TARGET_REPOSITORY }}
 
       - name: Set up Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
       - name: Display Package Version
-          id: display-version
-          run: echo "::set-env name=PACKAGE_VERSION::$(npm show ${{ env.NEW_PACKAGE_NAME }} version)"
+        id: display-version
+        run: echo "::set-env name=PACKAGE_VERSION::$(npm show ${{ env.NEW_PACKAGE_NAME }} version)"
 
       - name: Create New Branch
-          run: git checkout -b update-feed-to-${{env.PACKAGE_VERSION}}
+        run: git checkout -b update-feed-to-${{env.PACKAGE_VERSION}}
 
       - name: Update Package
         run: npm install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}
 
       - name: Commit and Push Changes
-          run: |
-            git config --global user.email "joanna.derks@schibsted.pl"
-            git config --global user.name "joanna-derks"
-            git status
+        run: |
+          git config --global user.email "joanna.derks@schibsted.pl"
+          git config --global user.name "joanna-derks"
+          git status
 
 #            git add package.json package-lock.json
 #            git commit -m "Update ${{ env.NEW_PACKAGE_NAME }}@ to version ${{ env.PACKAGE_VERSION }}"
