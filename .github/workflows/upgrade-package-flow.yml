@@ -29,9 +29,6 @@ jobs:
         id: display-version
         run: echo "PACKAGE_VERSION=$(npm show ${{ env.NEW_PACKAGE_NAME }} version)" >> "$GITHUB_ENV"
 
-      # - name: Create New Branch
-      #   run: git checkout -b update-lodash-to-"$PACKAGE_VERSION"
-
       - name: Update Package
         run: npm install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}
 
@@ -44,34 +41,14 @@ jobs:
       # git add package.json package-lock.json
       # git commit -m 'Update ${{ env.NEW_PACKAGE_NAME }}@ to version "$PACKAGE_VERSION"'
       # git push origin update-lodash-to-"$PACKAGE_VERSION"
-
       # - name: Create Pull Request
       #   run: gh pr create --base main --head update-lodash-to-"$PACKAGE_VERSION" --title 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"' --body 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'  --repo ${{ env.TARGET_REPOSITORY }}
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GHA_TOKEN_FOR_ANOTHER_REPO }}
+          token: ${{ secrets.GHA_TOKEN_FOR_ANOTHER_REPO }}  # Token created in the target repo with the scope of 'repo' + creating PRs by github actions bot allowed in settings
           commit-message: "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"
           title: "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"
           body: "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"
           branch: update-lodash-to-${{ env.PACKAGE_VERSION }}
-
-  # create-pull-request:
-  #   needs: install-package
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout target repo
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repository: ${{ env.TARGET_REPOSITORY }}
-      
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 18
-
-      # - name: Create pull request
-      #   uses: peter-evans/create-pull-request@v5
-     
