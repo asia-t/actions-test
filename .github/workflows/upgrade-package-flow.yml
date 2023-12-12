@@ -7,14 +7,13 @@ on:
         description: 'Name of the target repository where the pull request will be created'
         required: true
 
-jobs:
-  install-package:
-    runs-on: ubuntu-latest
-
-  env:
+env:
     NEW_PACKAGE_NAME: 'lodash'
     TARGET_REPOSITORY: ${{ github.event.inputs.targetRepository }}
 
+jobs:
+  install-package:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Target Repository
         uses: actions/checkout@v2
