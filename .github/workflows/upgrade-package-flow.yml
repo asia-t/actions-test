@@ -41,12 +41,21 @@ jobs:
           git config --global user.name "asia-t"
           git status
 
-          git add package.json package-lock.json
-          git commit -m 'Update ${{ env.NEW_PACKAGE_NAME }}@ to version "$PACKAGE_VERSION"'
-          git push origin update-lodash-to-"$PACKAGE_VERSION"
+      # git add package.json package-lock.json
+      # git commit -m 'Update ${{ env.NEW_PACKAGE_NAME }}@ to version "$PACKAGE_VERSION"'
+      # git push origin update-lodash-to-"$PACKAGE_VERSION"
 
-      - name: Create Pull Request
-        run: gh pr create --base main --head update-lodash-to-"$PACKAGE_VERSION" --title 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"' --body 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'  --repo ${{ env.TARGET_REPOSITORY }}
+      # - name: Create Pull Request
+      #   run: gh pr create --base main --head update-lodash-to-"$PACKAGE_VERSION" --title 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"' --body 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'  --repo ${{ env.TARGET_REPOSITORY }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GHA_TOKEN_FOR_ANOTHER_REPO }}
+          commit-message: 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'
+          title: 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'
+          body: 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'
+          branch: update-lodash-to-"$PACKAGE_VERSION"
 
   # create-pull-request:
   #   needs: install-package
