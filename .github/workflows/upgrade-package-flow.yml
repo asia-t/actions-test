@@ -33,7 +33,7 @@ jobs:
       #   run: git checkout -b update-lodash-to-"$PACKAGE_VERSION"
 
       - name: Update Package
-        run: npm install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"
+        run: npm install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}
 
       - name: Commit and Push Changes
         run: |
@@ -52,10 +52,10 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GHA_TOKEN_FOR_ANOTHER_REPO }}
-          commit-message: 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'
-          title: 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'
-          body: 'Install ${{ env.NEW_PACKAGE_NAME }}@"$PACKAGE_VERSION"'
-          branch: update-lodash-to-"$PACKAGE_VERSION"
+          commit-message: "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"
+          title: "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"
+          body: "Install ${{ env.NEW_PACKAGE_NAME }}@${{ env.PACKAGE_VERSION }}"
+          branch: update-lodash-to-${{ env.PACKAGE_VERSION }}
 
   # create-pull-request:
   #   needs: install-package
